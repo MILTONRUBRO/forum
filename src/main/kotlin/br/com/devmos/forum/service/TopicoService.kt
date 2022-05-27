@@ -53,4 +53,10 @@ class TopicoService(private var topicos: List<Topico>) {
             .findFirst()
             .orElseThrow({throw IllegalArgumentException("Topico não encontrado")})
     }
+
+    fun salvarTopico(topico: Topico) {
+        topicos.plus(topico)
+    }
+
+
 }
