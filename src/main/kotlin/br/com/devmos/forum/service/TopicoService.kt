@@ -56,7 +56,7 @@ class TopicoService(private var topicos: List<Topico>, private val cursoService:
     }
 
     fun salvarTopico(dto: TopicoRequestDTO) {
-        topicos.plus(Topico(
+        topicos = topicos.plus(Topico(
             id = topicos.size.toLong() + 1,
             titulo = dto.titulo,
             mensagem = dto.mensagem,
