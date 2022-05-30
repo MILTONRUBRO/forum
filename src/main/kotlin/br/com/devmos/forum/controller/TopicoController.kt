@@ -1,8 +1,8 @@
 package br.com.devmos.forum.controller
 
+import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -20,7 +20,7 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PostMapping
-    fun salvarTopico(@RequestBody topico: Topico){
-        topicoService.salvarTopico(topico)
+    fun salvarTopico(@RequestBody dto: TopicoRequestDTO){
+        topicoService.salvarTopico(dto)
     }
 }

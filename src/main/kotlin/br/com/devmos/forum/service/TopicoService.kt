@@ -1,5 +1,6 @@
 package br.com.devmos.forum.service
 
+import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.model.Curso
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.model.Usuario
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class TopicoService(private var topicos: List<Topico>) {
+class TopicoService(private var topicos: List<Topico>, private val cursoService: CursoService, private val usuarioService: UsuarioService) {
 
     init {
         val topico = Topico(
@@ -54,8 +55,14 @@ class TopicoService(private var topicos: List<Topico>) {
             .orElseThrow({throw IllegalArgumentException("Topico não encontrado")})
     }
 
-    fun salvarTopico(topico: Topico) {
-        topicos.plus(topico)
+    fun salvarTopico(dto: TopicoRequestDTO) {
+        topicos.plus(Topico(
+            id = topicos.size.toLong() + 1,
+            titulo = dto.titulo,
+            mensagem = dto.mensagem,
+            curso = cursoService.buscarCursoPorId(dto.idCurso),
+            usuario = usuarioService.buscarUsuarioPorId(dto.idUsuario)
+        ))
     }
 
 
