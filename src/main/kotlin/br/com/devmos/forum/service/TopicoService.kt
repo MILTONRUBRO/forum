@@ -58,9 +58,9 @@ class TopicoService(private var topicos: List<Topico>, private val cursoService:
     }
 
     fun buscarPorId(id: Long): Topico {
-        return topicos.stream().filter({ t ->  t.id == id})
+        return topicos.stream().filter{ t ->  t.id == id}
             .findFirst()
-            .orElseThrow({throw IllegalArgumentException("Topico não encontrado")})
+            .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
     }
 
     fun salvarTopico(dto: TopicoRequestDTO) {
