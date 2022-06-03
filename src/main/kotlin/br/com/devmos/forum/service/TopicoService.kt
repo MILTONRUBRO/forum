@@ -2,6 +2,7 @@ package br.com.devmos.forum.service
 
 import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
+import br.com.devmos.forum.mapper.TopicoRequestMapper
 import br.com.devmos.forum.mapper.TopicoResponseMapper
 import br.com.devmos.forum.model.Curso
 import br.com.devmos.forum.model.Topico
@@ -12,9 +13,9 @@ import java.util.stream.Collectors
 
 @Service
 class TopicoService(private var topicos: List<Topico>,
-                    private val cursoService: CursoService,
-                    private val usuarioService: UsuarioService,
-                    private val topicoResponseMapper: TopicoResponseMapper) {
+                    private val topicoResponseMapper: TopicoResponseMapper,
+                    private val topicoRequestMapper: TopicoRequestMapper
+) {
 
     init {
         val topico = Topico(
@@ -62,13 +63,9 @@ class TopicoService(private var topicos: List<Topico>,
     }
 
     fun salvarTopico(dto: TopicoRequestDTO) {
-        topicos = topicos.plus(Topico(
-            id = topicos.size.toLong() + 1,
-            titulo = dto.titulo,
-            mensagem = dto.mensagem,
-            curso = cursoService.buscarCursoPorId(dto.idCurso),
-            usuario = usuarioService.buscarUsuarioPorId(dto.idUsuario)
-        ))
+        val topico = topicoRequestMapper.map(dto)
+        topico.id = topicos.size.toLong() + 1
+        topicos = topicos.plus(topico)
     }
 
 
