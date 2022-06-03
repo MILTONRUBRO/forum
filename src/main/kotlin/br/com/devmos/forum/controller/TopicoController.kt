@@ -5,6 +5,7 @@ import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/topicos")
@@ -21,7 +22,7 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PostMapping
-    fun salvarTopico(@RequestBody dto: TopicoRequestDTO){
+    fun salvarTopico(@RequestBody @Valid dto: TopicoRequestDTO){
         topicoService.salvarTopico(dto)
     }
 }
