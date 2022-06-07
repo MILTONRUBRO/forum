@@ -1,5 +1,6 @@
 package br.com.devmos.forum.controller
 
+import br.com.devmos.forum.dto.AtualizaTopicoDTO
 import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
@@ -24,5 +25,10 @@ class TopicoController(private val topicoService: TopicoService) {
     @PostMapping
     fun salvarTopico(@RequestBody @Valid dto: TopicoRequestDTO){
         topicoService.salvarTopico(dto)
+    }
+
+    @PutMapping("/{id}")
+    fun atualizarTopico(@PathVariable id: Long, @RequestBody @Valid dto: AtualizaTopicoDTO){
+        topicoService.atualizarTopico(id, dto)
     }
 }

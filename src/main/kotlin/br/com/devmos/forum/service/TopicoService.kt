@@ -1,5 +1,6 @@
 package br.com.devmos.forum.service
 
+import br.com.devmos.forum.dto.AtualizaTopicoDTO
 import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.mapper.TopicoRequestMapper
@@ -66,6 +67,24 @@ class TopicoService(private var topicos: List<Topico>,
         val topico = topicoRequestMapper.map(dto)
         topico.id = topicos.size.toLong() + 1
         topicos = topicos.plus(topico)
+    }
+
+    fun atualizarTopico(id: Long, dto: AtualizaTopicoDTO){
+
+        val topico = topicos.stream().filter{t -> t.id == id}
+            .findFirst()
+            .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
+
+        topicos = topicos.minus(topico).plus(Topico(
+            id = id,
+            titulo = dto.titulo,
+            mensagem = dto.mensagem,
+            usuario = topico.usuario,
+            curso = topico.curso,
+            status = topico.status,
+            respostas = topico.respostas,
+            dataCriacao = topico.dataCriacao
+        ))
     }
 
 
