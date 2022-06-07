@@ -87,5 +87,14 @@ class TopicoService(private var topicos: List<Topico>,
         ))
     }
 
+    fun deletarTopico(id: Long) {
+        val topico = topicos.stream().filter{t -> t.id == id}
+            .findFirst()
+            .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
+
+        topicos = topicos.minus(topico)
+
+    }
+
 
 }

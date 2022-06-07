@@ -31,4 +31,9 @@ class TopicoController(private val topicoService: TopicoService) {
     fun atualizarTopico(@PathVariable id: Long, @RequestBody @Valid dto: AtualizaTopicoDTO){
         topicoService.atualizarTopico(id, dto)
     }
+
+    @DeleteMapping("/{id}")
+    fun deletarTopico(@PathVariable id: Long){
+        topicoService.deletarTopico(id)
+    }
 }
