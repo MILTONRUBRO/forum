@@ -5,7 +5,10 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
+import java.net.URI
 import javax.validation.Valid
 
 @RestController
@@ -23,8 +26,10 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PostMapping
-    fun salvarTopico(@RequestBody @Valid dto: TopicoRequestDTO){
-        topicoService.salvarTopico(dto)
+    fun salvarTopico(@RequestBody @Valid dto: TopicoRequestDTO, uriBuilder: UriComponentsBuilder): ResponseEntity<TopicoResponseDTO>{
+        val response = topicoService.salvarTopico(dto)
+        val uri = uriBuilder.path("/topicos/${response.id}").build().toUri()
+        return ResponseEntity.created(uri).body(response)
     }
 
     @PutMapping("/{id}")

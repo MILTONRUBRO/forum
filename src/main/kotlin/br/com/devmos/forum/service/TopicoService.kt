@@ -63,10 +63,11 @@ class TopicoService(private var topicos: List<Topico>,
             .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
     }
 
-    fun salvarTopico(dto: TopicoRequestDTO) {
+    fun salvarTopico(dto: TopicoRequestDTO): TopicoResponseDTO {
         val topico = topicoRequestMapper.map(dto)
         topico.id = topicos.size.toLong() + 1
         topicos = topicos.plus(topico)
+        return topicoResponseMapper.map(topico)
     }
 
     fun atualizarTopico(id: Long, dto: AtualizaTopicoDTO){
