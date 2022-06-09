@@ -5,6 +5,7 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
@@ -38,6 +39,7 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletarTopico(@PathVariable id: Long){
         topicoService.deletarTopico(id)
     }
