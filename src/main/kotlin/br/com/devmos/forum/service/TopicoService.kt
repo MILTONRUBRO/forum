@@ -3,6 +3,7 @@ package br.com.devmos.forum.service
 import br.com.devmos.forum.dto.AtualizaTopicoDTO
 import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
+import br.com.devmos.forum.exception.NotFoundException
 import br.com.devmos.forum.mapper.TopicoRequestMapper
 import br.com.devmos.forum.mapper.TopicoResponseMapper
 import br.com.devmos.forum.model.Curso
@@ -15,7 +16,8 @@ import java.util.stream.Collectors
 @Service
 class TopicoService(private var topicos: List<Topico>,
                     private val topicoResponseMapper: TopicoResponseMapper,
-                    private val topicoRequestMapper: TopicoRequestMapper
+                    private val topicoRequestMapper: TopicoRequestMapper,
+                    private val notFoundMessage: String = "Topico não encontrado"
 ) {
 
     init {
@@ -60,7 +62,7 @@ class TopicoService(private var topicos: List<Topico>,
     fun buscarPorId(id: Long): Topico {
         return topicos.stream().filter{ t ->  t.id == id}
             .findFirst()
-            .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
+            .orElseThrow{NotFoundException(notFoundMessage)}
     }
 
     fun salvarTopico(dto: TopicoRequestDTO): TopicoResponseDTO {
@@ -74,7 +76,7 @@ class TopicoService(private var topicos: List<Topico>,
 
         val topico = topicos.stream().filter{t -> t.id == id}
             .findFirst()
-            .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
+            .orElseThrow{NotFoundException(notFoundMessage)}
 
         topicos = topicos.minus(topico).plus(Topico(
             id = id,
@@ -91,7 +93,7 @@ class TopicoService(private var topicos: List<Topico>,
     fun deletarTopico(id: Long) {
         val topico = topicos.stream().filter{t -> t.id == id}
             .findFirst()
-            .orElseThrow{throw IllegalArgumentException("Topico não encontrado")}
+            .orElseThrow{NotFoundException(notFoundMessage)}
 
         topicos = topicos.minus(topico)
 
