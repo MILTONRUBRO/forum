@@ -48,8 +48,8 @@ class TopicoService(private var topicos: List<Topico>,
             ),
             usuario = Usuario(
                 id = 1,
-                nome = "Ana da Silva",
-                email = "ana@email.com"
+                nome = "Maria da Silva",
+                email = "maria@email.com"
             )
         )
         topicos =  Arrays.asList(topico, topico2)
