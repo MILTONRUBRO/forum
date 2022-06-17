@@ -9,94 +9,51 @@ import br.com.devmos.forum.mapper.TopicoResponseMapper
 import br.com.devmos.forum.model.Curso
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.model.Usuario
+import br.com.devmos.forum.repository.TopicoRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.stream.Collectors
 
 @Service
-class TopicoService(private var topicos: List<Topico>,
+class TopicoService(private val topicoRepository: TopicoRepository,
                     private val topicoResponseMapper: TopicoResponseMapper,
                     private val topicoRequestMapper: TopicoRequestMapper,
                     private val notFoundMessage: String = "Topico não encontrado"
 ) {
 
-    init {
-        val topico = Topico(
-            id = 1,
-            titulo = "Duvida Kotlin",
-            mensagem = "Variaveis no Kotlin",
-            curso = Curso(
-                id = 1,
-                nome = "Kotlin",
-                categoria = "Programacao"
-            ),
-            usuario = Usuario(
-                id = 1,
-                nome = "Ana da Silva",
-                email = "ana@email.com"
-            )
-        )
-
-        val topico2 = Topico(
-            id = 2,
-            titulo = "Duvida Kotlin 2",
-            mensagem = "Variaveis no Kotlin 2",
-            curso = Curso(
-                id = 1,
-                nome = "Kotlin",
-                categoria = "Programacao"
-            ),
-            usuario = Usuario(
-                id = 1,
-                nome = "Maria da Silva",
-                email = "maria@email.com"
-            )
-        )
-        topicos =  Arrays.asList(topico, topico2)
-
-    }
     fun listar(): List<TopicoResponseDTO> {
-        return topicos.stream().map { t -> topicoResponseMapper.map(t) }.collect(Collectors.toList())
+        return topicoRepository.findAll().stream().map { t -> topicoResponseMapper.map(t) }.collect(Collectors.toList())
     }
 
     fun buscarPorId(id: Long): Topico {
-        return topicos.stream().filter{ t ->  t.id == id}
-            .findFirst()
-            .orElseThrow{NotFoundException(notFoundMessage)}
+        return topicoRepository.findById(id).orElseThrow{NotFoundException(notFoundMessage)}
     }
 
+    @Transactional
     fun salvarTopico(dto: TopicoRequestDTO): TopicoResponseDTO {
         val topico = topicoRequestMapper.map(dto)
-        topico.id = topicos.size.toLong() + 1
-        topicos = topicos.plus(topico)
+        topicoRepository.save(topico)
         return topicoResponseMapper.map(topico)
     }
 
+    @Transactional
     fun atualizarTopico(id: Long, dto: AtualizaTopicoDTO){
 
-        val topico = topicos.stream().filter{t -> t.id == id}
-            .findFirst()
+        val topico = topicoRepository.findById(id)
             .orElseThrow{NotFoundException(notFoundMessage)}
 
-        topicos = topicos.minus(topico).plus(Topico(
-            id = id,
-            titulo = dto.titulo,
-            mensagem = dto.mensagem,
-            usuario = topico.usuario,
-            curso = topico.curso,
-            status = topico.status,
-            respostas = topico.respostas,
-            dataCriacao = topico.dataCriacao
-        ))
+        topico.titulo = dto.titulo
+        topico.mensagem = dto.mensagem
+        topicoRepository.save(topico)
     }
 
+    @Transactional
     fun deletarTopico(id: Long) {
-        val topico = topicos.stream().filter{t -> t.id == id}
-            .findFirst()
+        val topico = topicoRepository.findById(id)
             .orElseThrow{NotFoundException(notFoundMessage)}
 
-        topicos = topicos.minus(topico)
-
+        topicoRepository.delete(topico)
     }
 
 
