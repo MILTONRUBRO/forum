@@ -56,5 +56,5 @@ class TopicoService(private val topicoRepository: TopicoRepository,
         topicoRepository.delete(topico)
     }
 
-
 }
+
