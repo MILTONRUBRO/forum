@@ -4,7 +4,9 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.CursoService
 import br.com.devmos.forum.service.UsuarioService
+import org.springframework.stereotype.Component
 
+@Component
 class TopicoRequestMapper(
     private val cursoService: CursoService,
     private val usuarioService: UsuarioService,
