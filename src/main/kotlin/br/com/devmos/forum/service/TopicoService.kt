@@ -22,8 +22,13 @@ class TopicoService(private val topicoRepository: TopicoRepository,
                     private val notFoundMessage: String = "Topico não encontrado"
 ) {
 
-    fun listar(): List<TopicoResponseDTO> {
-        return topicoRepository.findAll().stream().map { t -> topicoResponseMapper.map(t) }.collect(Collectors.toList())
+    fun listar(nomeCurso: String?): List<TopicoResponseDTO> {
+        val topicos = if (nomeCurso == null){
+            topicoRepository.findAll()
+        }else{
+            topicoRepository.findByCursoNome(nomeCurso)
+        }
+        return topicos.stream().map { t -> topicoResponseMapper.map(t) }.collect(Collectors.toList())
     }
 
     fun buscarPorId(id: Long): Topico {
