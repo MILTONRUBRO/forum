@@ -5,6 +5,8 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,8 +19,8 @@ import javax.validation.Valid
 class TopicoController(private val topicoService: TopicoService) {
 
     @GetMapping
-    fun listar(@RequestParam(required = false) nomeCurso: String?): List<TopicoResponseDTO> {
-        return topicoService.listar(nomeCurso)
+    fun listar(@RequestParam(required = false) nomeCurso: String?, paginacao: Pageable): Page<TopicoResponseDTO> {
+        return topicoService.listar(nomeCurso, paginacao)
     }
 
     @GetMapping("/{id}")

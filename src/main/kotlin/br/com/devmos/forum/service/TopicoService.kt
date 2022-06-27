@@ -6,10 +6,10 @@ import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.exception.NotFoundException
 import br.com.devmos.forum.mapper.TopicoRequestMapper
 import br.com.devmos.forum.mapper.TopicoResponseMapper
-import br.com.devmos.forum.model.Curso
 import br.com.devmos.forum.model.Topico
-import br.com.devmos.forum.model.Usuario
 import br.com.devmos.forum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -22,13 +22,13 @@ class TopicoService(private val topicoRepository: TopicoRepository,
                     private val notFoundMessage: String = "Topico não encontrado"
 ) {
 
-    fun listar(nomeCurso: String?): List<TopicoResponseDTO> {
+    fun listar(nomeCurso: String?, paginacao: Pageable): Page<TopicoResponseDTO> {
         val topicos = if (nomeCurso == null){
-            topicoRepository.findAll()
+            topicoRepository.findAll(paginacao)
         }else{
-            topicoRepository.findByCursoNome(nomeCurso)
+            topicoRepository.findByCursoNome(nomeCurso, paginacao)
         }
-        return topicos.stream().map { t -> topicoResponseMapper.map(t) }.collect(Collectors.toList())
+        return topicos.map { t -> topicoResponseMapper.map(t) }
     }
 
     fun buscarPorId(id: Long): Topico {
