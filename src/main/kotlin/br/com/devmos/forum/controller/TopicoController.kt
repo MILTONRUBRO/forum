@@ -5,6 +5,7 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -34,6 +35,7 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PostMapping
+    @CacheEvict(value = ["topicos"], allEntries = true)
     fun salvarTopico(@RequestBody @Valid dto: TopicoRequestDTO, uriBuilder: UriComponentsBuilder): ResponseEntity<TopicoResponseDTO>{
         val response = topicoService.salvarTopico(dto)
         val uri = uriBuilder.path("/topicos/${response.id}").build().toUri()
@@ -41,11 +43,13 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PutMapping("/{id}")
+    @CacheEvict(value = ["topicos"], allEntries = true)
     fun atualizarTopico(@PathVariable id: Long, @RequestBody @Valid dto: AtualizaTopicoDTO){
         topicoService.atualizarTopico(id, dto)
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict(value = ["topicos"], allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletarTopico(@PathVariable id: Long){
         topicoService.deletarTopico(id)
