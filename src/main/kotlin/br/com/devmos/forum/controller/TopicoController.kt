@@ -5,6 +5,7 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -21,6 +22,7 @@ import javax.validation.Valid
 class TopicoController(private val topicoService: TopicoService) {
 
     @GetMapping
+    @Cacheable("topicos")
     fun listar(@RequestParam(required = false) nomeCurso: String?,
                @PageableDefault(size = 10, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable): Page<TopicoResponseDTO> {
         return topicoService.listar(nomeCurso, paginacao)
