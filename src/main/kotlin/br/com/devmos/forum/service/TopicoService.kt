@@ -1,6 +1,7 @@
 package br.com.devmos.forum.service
 
 import br.com.devmos.forum.dto.AtualizaTopicoDTO
+import br.com.devmos.forum.dto.TopicoPorCategoriaDto
 import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.exception.NotFoundException
@@ -59,6 +60,10 @@ class TopicoService(private val topicoRepository: TopicoRepository,
             .orElseThrow{NotFoundException(notFoundMessage)}
 
         topicoRepository.delete(topico)
+    }
+
+    fun buscarRelatorios():  List<TopicoPorCategoriaDto> {
+        return topicoRepository.buscarRelatorios()
     }
 
 }

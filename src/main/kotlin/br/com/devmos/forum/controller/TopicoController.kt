@@ -1,6 +1,7 @@
 package br.com.devmos.forum.controller
 
 import br.com.devmos.forum.dto.AtualizaTopicoDTO
+import br.com.devmos.forum.dto.TopicoPorCategoriaDto
 import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
@@ -53,5 +54,10 @@ class TopicoController(private val topicoService: TopicoService) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletarTopico(@PathVariable id: Long){
         topicoService.deletarTopico(id)
+    }
+
+    @GetMapping("/relatorios")
+    fun buscarRelatorios():  List<TopicoPorCategoriaDto>{
+        return topicoService.buscarRelatorios()
     }
 }
