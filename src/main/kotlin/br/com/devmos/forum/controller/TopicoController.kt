@@ -6,6 +6,7 @@ import br.com.devmos.forum.dto.TopicoRequestDTO
 import br.com.devmos.forum.dto.TopicoResponseDTO
 import br.com.devmos.forum.model.Topico
 import br.com.devmos.forum.service.TopicoService
+import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
@@ -23,6 +24,8 @@ import javax.validation.Valid
 @RequestMapping("/topicos")
 class TopicoController(private val topicoService: TopicoService) {
 
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     @GetMapping
     @Cacheable("topicos")
     fun listar(@RequestParam(required = false) nomeCurso: String?,
@@ -32,12 +35,14 @@ class TopicoController(private val topicoService: TopicoService) {
 
     @GetMapping("/{id}")
     fun buscarTopicoPorId(@PathVariable id: Long): Topico {
+        logger.info("ID: {}", id)
         return topicoService.buscarPorId(id)
     }
 
     @PostMapping
     @CacheEvict(value = ["topicos"], allEntries = true)
     fun salvarTopico(@RequestBody @Valid dto: TopicoRequestDTO, uriBuilder: UriComponentsBuilder): ResponseEntity<TopicoResponseDTO>{
+        logger.info("Request: {}", dto)
         val response = topicoService.salvarTopico(dto)
         val uri = uriBuilder.path("/topicos/${response.id}").build().toUri()
         return ResponseEntity.created(uri).body(response)
@@ -46,6 +51,7 @@ class TopicoController(private val topicoService: TopicoService) {
     @PutMapping("/{id}")
     @CacheEvict(value = ["topicos"], allEntries = true)
     fun atualizarTopico(@PathVariable id: Long, @RequestBody @Valid dto: AtualizaTopicoDTO){
+        logger.info("Request: {}", dto)
         topicoService.atualizarTopico(id, dto)
     }
 
