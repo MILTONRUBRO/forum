@@ -59,6 +59,7 @@ class TopicoController(private val topicoService: TopicoService) {
     @CacheEvict(value = ["topicos"], allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletarTopico(@PathVariable id: Long){
+        logger.info("ID: {}", id)
         topicoService.deletarTopico(id)
     }
 
