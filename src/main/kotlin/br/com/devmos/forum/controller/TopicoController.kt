@@ -52,6 +52,7 @@ class TopicoController(private val topicoService: TopicoService) {
     @CacheEvict(value = ["topicos"], allEntries = true)
     fun atualizarTopico(@PathVariable id: Long, @RequestBody @Valid dto: AtualizaTopicoDTO){
         logger.info("Request: {}", dto)
+        logger.info("Request: {}", dto)
         topicoService.atualizarTopico(id, dto)
     }
 
