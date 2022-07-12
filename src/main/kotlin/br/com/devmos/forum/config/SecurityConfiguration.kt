@@ -18,6 +18,7 @@ class SecurityConfiguration(
 
     override fun configure(http: HttpSecurity?) {
         http?.authorizeRequests()?.
+        antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
         anyRequest()?.
         authenticated()?.
         and()?.

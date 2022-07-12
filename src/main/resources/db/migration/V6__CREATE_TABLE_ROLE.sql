@@ -3,3 +3,5 @@ CREATE TABLE role(
     nome varchar(60) not null,
     primary key(id)
 );
+
+INSERT INTO role(id, nome) VALUES(1, 'LEITURA_ESCRITA');
