@@ -9,20 +9,24 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(
         private val userDetailsService: UserDetailsService
+        private val jwtUtil: JWTUtil
 ) : WebSecurityConfigurerAdapter()  {
 
     override fun configure(http: HttpSecurity?) {
         http?.authorizeRequests()?.
-        antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
+        //antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
+        antMatchers("/login")?.permitAll()?.
         anyRequest()?.
         authenticated()?.
-        and()?.
-        sessionManagement()?.
+        and()
+        http?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
+        http?.sessionManagement()?.
         sessionCreationPolicy(SessionCreationPolicy.STATELESS)?.
         and()?.
         formLogin()?.
