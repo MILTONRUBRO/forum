@@ -2,6 +2,7 @@ package br.com.devmos.forum.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -21,17 +22,13 @@ class SecurityConfiguration(
     override fun configure(http: HttpSecurity?) {
         http?.authorizeRequests()?.
         //antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
-        antMatchers("/login")?.permitAll()?.
+        antMatchers(HttpMethod.POST,"/login")?.permitAll()?.
         anyRequest()?.
         authenticated()?.
         and()
         http?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
         http?.sessionManagement()?.
-        sessionCreationPolicy(SessionCreationPolicy.STATELESS)?.
-        and()?.
-        formLogin()?.
-        disable()?.
-        httpBasic()
+        sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     @Bean
