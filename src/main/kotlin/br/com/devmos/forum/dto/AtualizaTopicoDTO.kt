@@ -4,10 +4,10 @@ import javax.validation.constraints.NotEmpty
 
 data class AtualizaTopicoDTO(
 
-    @field:NotEmpty(message = "Titulo não pode ser vazio")
+    @field:NotEmpty(message = "O Titulo não pode ser vazio")
     val titulo: String,
 
-    @field:NotEmpty(message = "Mensagem não pode ser vazia")
+    @field:NotEmpty(message = "A Mensagem não pode ser vazia")
     val mensagem: String
         ) {
 
