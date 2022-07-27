@@ -21,7 +21,9 @@ class SecurityConfiguration(
 ) : WebSecurityConfigurerAdapter()  {
 
     override fun configure(http: HttpSecurity?) {
-        http?.authorizeRequests()?.
+        http?.
+        csrf()?.disable()?.
+        authorizeRequests()?.
         //antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
         antMatchers(HttpMethod.POST,"/login")?.permitAll()?.
         anyRequest()?.
