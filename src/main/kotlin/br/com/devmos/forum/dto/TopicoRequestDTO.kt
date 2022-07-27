@@ -3,7 +3,6 @@ package br.com.devmos.forum.dto
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
-import kotlin.math.min
 
 data class TopicoRequestDTO(
 

@@ -1,6 +1,5 @@
 package br.com.devmos.forum.dto
 
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 data class ErrorResponse(val timestamp: LocalDateTime = LocalDateTime.now(),
