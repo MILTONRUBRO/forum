@@ -6,11 +6,11 @@ import javax.validation.constraints.Size
 
 data class TopicoRequestDTO(
 
-    @field:NotEmpty(message = "Titulo não pode ser vazio")
+    @field:NotEmpty(message = "O Titulo não pode ser vazio")
     @field:Size(min = 5, max = 100)
     val titulo: String,
 
-    @field:NotEmpty(message = "Mensagem não pode ser vazia")
+    @field:NotEmpty(message = "A Mensagem não pode ser vazia")
     val mensagem: String,
 
     @field:NotNull(message = "id do curso não pode ser nulo")
