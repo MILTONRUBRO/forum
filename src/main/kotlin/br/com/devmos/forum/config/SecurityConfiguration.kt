@@ -24,7 +24,7 @@ class SecurityConfiguration(
         http?.
         csrf()?.disable()?.
         authorizeRequests()?.
-        //antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
+        antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA")?.
         antMatchers(HttpMethod.POST,"/login")?.permitAll()?.
         anyRequest()?.
         authenticated()?.
