@@ -34,7 +34,6 @@ class SecurityConfiguration(
         http?.sessionManagement()?.
         sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
-
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
@@ -43,6 +42,4 @@ class SecurityConfiguration(
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.userDetailsService(userDetailsService)?.passwordEncoder(bCryptPasswordEncoder())
     }
-
-
 }
