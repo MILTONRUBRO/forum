@@ -14,10 +14,8 @@ spring:
     baseline-on-migrate: true
     enabled: true
     locations: classpath:db/migration
-
-  jwt:
-    secret: secreto
-
   h2:
     console:
       enabled: true
+  jwt:
+    secret: secreto
