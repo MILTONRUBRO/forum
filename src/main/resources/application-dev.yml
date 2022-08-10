@@ -10,12 +10,8 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-  flyway:
-    baseline-on-migrate: true
-    enabled: true
-    locations: classpath:db/migration
   h2:
     console:
       enabled: true
-  jwt:
-    secret: secreto
+jwt:
+  secret: secret
