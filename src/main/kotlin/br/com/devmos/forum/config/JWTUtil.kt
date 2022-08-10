@@ -17,7 +17,7 @@ class JWTUtil(
 
     private val expiration: Long = 60000
 
-    @Value("\${jwt.secret}")
+    @Value("jwt.secret")
     private lateinit var secret: String
 
     fun generateToken(username: String, authorities: MutableCollection<out GrantedAuthority>): String? {
